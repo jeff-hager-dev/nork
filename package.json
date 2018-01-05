@@ -1,0 +1,22 @@
+{
+  "name": "nork",
+  "version": "0.0.1",
+  "description": "A node slack bot wrapper for the Zork game ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified, cause I am a crazy man\" && exit 1"
+  },
+  "keywords": [
+    "zork",
+    "game",
+    "slack-bot",
+    "node"
+  ],
+  "author": "Jeffrey N. Hager",
+  "license": "MIT",
+  "dependencies": {
+    "@slack/client": "^3.15.0",
+    "express": "^4.15.2",
+    "slackbots": "^1.1.0"
+  }
+}
