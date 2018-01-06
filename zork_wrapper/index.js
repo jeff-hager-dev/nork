@@ -5,9 +5,9 @@ const readline = require('readline');
 module.exports = function(options){
 
   let zorkWrapper = this;
-  var recentGameOutput = '';
-  var gameInstance = {};
-  var userEvents = {};
+  let recentGameOutput = '';
+  let gameInstance = {};
+  let userEvents = {};
   
   zorkWrapper.start = (events) => {
     userEvents = events;

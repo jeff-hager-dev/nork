@@ -2,7 +2,7 @@ let { SlackEvents, UserEvents, MessageTypes } = require('../slack_wrapper');
 
 module.exports = function(zorkInterface, logger){
 
-  var eventListeners = {};
+  let eventListeners = {};
 
   eventListeners[SlackEvents.START] = (data) =>{
     logger.info('Connected to Slack.');  
@@ -36,5 +36,6 @@ module.exports = function(zorkInterface, logger){
   eventListeners[SlackEvents.ERROR] = (data) =>{
     logger.info(SlackEvents.ERROR+'\n', data);  
   };
+  
   return eventListeners;
 }
