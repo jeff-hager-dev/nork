@@ -21,8 +21,8 @@ var slackBot = function(options){
   };
 
   this.sendMessage = (message) => {
-
-    bot.postMessageToChannel('general', message, {});
+    if(!this.bot){ return; }
+    this.bot.postMessageToChannel(options.channel, message, {});
   };
 
   this.start = (userEvents)=>{
@@ -33,15 +33,16 @@ var slackBot = function(options){
       name: botOptions.whoAmI
     });
     
-    bot.on(slackEvents.START, () => {
+     bot.on(slackEvents.START, () => {
       triggerUserEvent(slackEvents.START, null);
 
-      bot.on(slackEvents.MESSAGE, (data) => {
+       bot.on(slackEvents.MESSAGE, (data) => {
         data.isCommand = isCommand(data);
         triggerUserEvent(slackEvents.MESSAGE, data);
       });
     });
 
+    this.bot = bot;
   }
 };
   

@@ -13,8 +13,7 @@ module.exports = function( options){
     var gameInstance = spawn('./zork',[], {cwd:'./lib/zork/'});
     events.onStart(gameInstance.pid);
     gameInstance.stdout.on('data', (data) => {
-      recentGameOutput = `#############################${data}##############################`;
-      events.gameOutput(zorkWrapper.recentGameOutput);
+      events.gameOutput(`${data}`);
     });
 
     gameInstance.stderr.on('data', (data) => {

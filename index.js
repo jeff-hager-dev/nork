@@ -17,7 +17,7 @@ slackActions[SlackEvents.START] = (data) =>{
 };
 
 slackActions[SlackEvents.MESSAGE] = (data) =>{
-  logger.info(SlackEvents.MESSAGE+' >> ', data, "\n#############");  
+  logger.info(`${SlackEvents.MESSAGE} type: ${data.type}`);  
   if(data.isCommand){
     var command = data.text.substring(1);
     zorkInstance.writeToProcess(command);
@@ -41,7 +41,8 @@ slackActions[SlackEvents.ERROR] = (data) =>{
 //==================================================
 var zorkActions = {};
 zorkActions.gameOutput = (data)=>{
-  logger.info(data);
+  logger.info('Game output', data);
+  slackBot.sendMessage(data);
 };
 
 zorkActions.gameError = (data)=>{
@@ -56,4 +57,3 @@ zorkActions.onStart = (data) => {
 // Starting everything up
 //==================================================
 slackBot.start(slackActions);
-zorkInstance.start(zorkActions);
