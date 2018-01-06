@@ -10,10 +10,11 @@ module.exports = function( options){
   var userEvents = {};
   
   zorkWrapper.start = (events) => {
-    var gameInstance = spawn('./zork',[], {cwd:'./lib/zork/'});
-    events.onStart(gameInstance.pid);
+    userEvents = events;
+    gameInstance = spawn('./zork',[], {cwd:'./lib/zork/'});
+    userEvents.onStart(gameInstance.pid);
     gameInstance.stdout.on('data', (data) => {
-      events.gameOutput(`${data}`);
+      userEvents.gameOutput(`${data}`);
     });
 
     gameInstance.stderr.on('data', (data) => {
@@ -43,10 +44,7 @@ module.exports = function( options){
   };
 
   zorkWrapper.writeToProcess=(data)=>{
-    events.gameOutput('Writing data');
-    /*if(zorkWrapper.GameInstance){return;}
-    zorkWrapper.GameInstance.stdin.write(`${data}\n`);
-    child.stdin.end();
-    */
+    if(!gameInstance){return;}
+    gameInstance.stdin.write(`${data}\n`);
   };
 }
