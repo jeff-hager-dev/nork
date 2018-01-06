@@ -4,6 +4,8 @@
   "description": "A node slack bot wrapper for the Zork game ",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "debug": "node index.js DEBUG=true",
     "test": "echo \"Error: no test specified, cause I am a crazy man\" && exit 1"
   },
   "keywords": [

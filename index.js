@@ -1,23 +1,23 @@
 let {SlackBot, SlackEvents, UserEvents} = require('./slack.bot');
-let zorkWrapper = require('./zork.wrapper');
+let ZorkWrapper = require('./zork.wrapper');
 let config = require('./config');
+let Logger = require('./logger');
 
-var zorkInstance = new zorkWrapper(config.zorkOptions);
+var logger = new Logger(config);
+var zorkInstance = new ZorkWrapper(config.zorkOptions);
 var slackBot = new SlackBot(config.botOptions);
-let logInfo = function(){
-  if(!config.debug){return;}
-  if(console){
-    console.log( Array.prototype.slice.call(arguments) );
-  }
-};
+
+//==================================================
+// Setting up the actions for the slack bot
+//==================================================
 var slackActions = {};
 
 slackActions[SlackEvents.START] = (data) =>{
-  console.log('Connected to Slack.');  
+  logger.info('Connected to Slack.');  
 };
 
 slackActions[SlackEvents.MESSAGE] = (data) =>{
-  console.log(SlackEvents.MESSAGE+' >> ', data, "\n#############");  
+  logger.info(SlackEvents.MESSAGE+' >> ', data, "\n#############");  
   if(data.isCommand){
     var command = data.text.substring(1);
     zorkInstance.writeToProcess(command);
@@ -25,22 +25,35 @@ slackActions[SlackEvents.MESSAGE] = (data) =>{
 };
 
 slackActions[SlackEvents.OPEN] = (data) =>{
-  console.log(SlackEvents.OPEN+'\n');  
+  logger.info(SlackEvents.OPEN+'\n');  
 };
 
 slackActions[SlackEvents.CLOSE] = (data) =>{
-  console.log(SlackEvents.CLOSE+'\n');  
+  logger.info(SlackEvents.CLOSE+'\n');  
 };
 
 slackActions[SlackEvents.ERROR] = (data) =>{
-  console.log(SlackEvents.ERROR+'\n', data);  
+  logger.info(SlackEvents.ERROR+'\n', data);  
 };
 
+//==================================================
+// Setting up the actions for the zork wrapper
+//==================================================
 var zorkActions = {};
-
 zorkActions.gameOutput = (data)=>{
-  console.log(data);
+  logger.info(data);
 };
 
+zorkActions.gameError = (data)=>{
+  logger.error(data);
+}
+
+zorkActions.onStart = (data) => {
+  logger.info(`Game PID ${data}`);
+};
+
+//==================================================
+// Starting everything up
+//==================================================
 slackBot.start(slackActions);
 zorkInstance.start(zorkActions);

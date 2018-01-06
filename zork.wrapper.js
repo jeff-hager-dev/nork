@@ -3,32 +3,45 @@ const repl = require('repl');
 const readline = require('readline');
 
 module.exports = function( options){
+
   let zorkWrapper = this;
-  zorkWrapper.recentGameOutput = '';
-
+  var recentGameOutput = '';
+  var gameInstance = {};
+  var userEvents = {};
+  
   zorkWrapper.start = (events) => {
-    var zorkGame = spawn('./zork',[], {cwd:'./lib/zork/'});
-
-    console.log("Zork PID: ", zorkGame.pid);
-
-    zorkGame.stdout.on('data', (data) => {
-      zorkWrapper.recentGameOutput = `#############################${data}##############################`;
+    var gameInstance = spawn('./zork',[], {cwd:'./lib/zork/'});
+    events.onStart(gameInstance.pid);
+    gameInstance.stdout.on('data', (data) => {
+      recentGameOutput = `#############################${data}##############################`;
       events.gameOutput(zorkWrapper.recentGameOutput);
     });
 
-    zorkGame.stderr.on('data', (data) => {
+    gameInstance.stderr.on('data', (data) => {
       console.log(`stderr: ${data}`);
     });
 
-    zorkGame.on('close', (code) => {
+    gameInstance.on('close', (code) => {
       console.log(`child process exited with code ${code}`);
     });
-    zorkWrapper.GameInstance = zorkGame;
   }
 
-  zorkWrapper.stop = () => {};
+  zorkWrapper.stop = () => {
+    gameInstance.kill();
+  };
 
-  zorkWrapper.reset = () => {};
+  zorkWrapper.reset = () => {
+    zorkWrapper.stop();
+    zorkWrapper.start(userEvents);
+  };
+
+  zorkWrapper.GetLastOutput = () =>{
+    return gameOutput
+  };
+  
+  zorkWrapper.GetInstancePid = () => {
+    return gameInstance.pid;
+  };
 
   zorkWrapper.writeToProcess=(data)=>{
     events.gameOutput('Writing data');

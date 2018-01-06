@@ -1,12 +1,11 @@
 module.exports = {
-    debug: false,
+    debug: process.env.ZORK_BOT_TOKEN || false,
     zorkOptions:{
     },
     botOptions: {
-        whoAmI: "Zork",
-        commandIndicator: "!",
-        slackChannel: "zork",
-        slackUrl: "https://hagerdev.slack.com",
+        whoAmI: process.env.ZORK_BOT_NAME || "Zork",
+        commandIndicator: process.env.ZORK_BOT_COMMAND_TOKEN ||"!",
+        slackChannel: process.env.ZORK_BOT_CHANNEL  || "zork",
         token: process.env.ZORK_BOT_TOKEN, // Add a bot https://my.slack.com/services/new/bot and put the token
     }
 };
