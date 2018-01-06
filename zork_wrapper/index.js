@@ -2,7 +2,7 @@ const { spawn } = require('child_process');
 const repl = require('repl');
 const readline = require('readline');
 
-module.exports = function( options){
+module.exports = function(options){
 
   let zorkWrapper = this;
   var recentGameOutput = '';

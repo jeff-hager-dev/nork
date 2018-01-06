@@ -25,7 +25,7 @@ var slackBot = function(options){
     this.bot.postMessageToChannel(options.channel, message, {});
   };
 
-  this.start = (userEvents)=>{
+  this.start = (userEvents, OnConnection)=>{
     this.userEvents = userEvents;
     // create a bot
     let bot = new SlackBot({
@@ -33,7 +33,8 @@ var slackBot = function(options){
       name: botOptions.whoAmI
     });
     
-     bot.on(slackEvents.START, () => {
+    bot.on(slackEvents.START, () => {
+      OnConnection();
       triggerUserEvent(slackEvents.START, null);
 
        bot.on(slackEvents.MESSAGE, (data) => {
@@ -41,7 +42,6 @@ var slackBot = function(options){
         triggerUserEvent(slackEvents.MESSAGE, data);
       });
     });
-
     this.bot = bot;
   }
 };
