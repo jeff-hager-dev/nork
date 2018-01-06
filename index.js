@@ -1,5 +1,5 @@
-let {SlackBot, SlackEvents, UserEvents, MessageTypes} = require('./slack.bot');
-let ZorkWrapper = require('./zork.wrapper');
+let {SlackBot, SlackEvents, UserEvents, MessageTypes} = require('./slack_bot');
+let ZorkWrapper = require('./zork_wrapper');
 let config = require('./config');
 let Logger = require('./logger');
 

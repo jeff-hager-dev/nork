@@ -11,7 +11,7 @@ module.exports = function( options){
   
   zorkWrapper.start = (events) => {
     userEvents = events;
-    gameInstance = spawn('./zork',[], {cwd:'./lib/zork/'});
+    gameInstance = spawn('./zork',[], {cwd:'./zork_wrapper/lib/zork/'});
     userEvents.onStart(gameInstance.pid);
     gameInstance.stdout.on('data', (data) => {
       userEvents.gameOutput(`${data}`);
